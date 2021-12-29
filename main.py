@@ -25,9 +25,9 @@ class rmysplugin(StellarPlayer.IStellarPlayerPlugin):
     def start(self):
         super().start()
         self.configjson = 'source.json'
-        jsonpath = self.player.dataDirectory + '\\source.json'
+        jsonpath = self.player.dataDirectory + os.path.sep +'source.json'
         if os.path.exists(jsonpath) == False:
-            localpath = os.path.split(os.path.realpath(__file__))[0] + '\\source.json'
+            localpath = os.path.split(os.path.realpath(__file__))[0] + os.path.sep + 'source.json'
             print(localpath)
             if os.path.exists(localpath):
                 try:

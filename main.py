@@ -66,7 +66,7 @@ class rmysplugin(StellarPlayer.IStellarPlayerPlugin):
         fileJson = json.loads(file.read())
         print(len(fileJson))
         for item in fileJson:
-            newitem = {'title':item['name'],'fullname':item['fullname'],'picture':item['pic_url'],'info':item['detail'],'url':item['magnet']}
+            newitem = {'title':str(item['name']),'fullname':item['fullname'],'picture':item['pic_url'],'info':item['detail'],'url':item['magnet']}
             self.source.append(newitem)
         file.close()    
     
@@ -179,7 +179,7 @@ class rmysplugin(StellarPlayer.IStellarPlayerPlugin):
     def onClickFormerPage(self, *args):
         if self.pageindex == 1:
             return
-        self.pageindex = self.pageindex - 1;
+        self.pageindex = self.pageindex - 1
         self.loading()
         self.loadPageData()
         self.loading(True)
@@ -201,6 +201,20 @@ class rmysplugin(StellarPlayer.IStellarPlayerPlugin):
     def loading(self, stopLoading = False):
         if hasattr(self.player,'loadingAnimation'):
             self.player.loadingAnimation('main', stop=stopLoading)
+
+    def onPlayerSearch(self, dispatchId, searchId, wd, limit):
+        # 播放器搜索异步接口
+        try:
+            result = [{
+                "name": item["title"],
+                "pic": item["picture"],
+                "summary": item["info"],
+                "pub_date": '',
+                "urls": [['播放', item['url']]]
+            } for item in self.source if wd in item['title']][:limit]
+            self.player.dispatchResult(dispatchId, searchId=searchId, wd=wd, result=result)
+        except:
+            self.player.dispatchResult(dispatchId, searchId=searchId, wd=wd, result=[])
         
 def newPlugin(player:StellarPlayer.IStellarPlayer,*arg):
     plugin = rmysplugin(player)

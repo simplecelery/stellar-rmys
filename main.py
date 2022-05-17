@@ -36,7 +36,8 @@ class rmysplugin(StellarPlayer.IStellarPlayerPlugin):
                     print("Unable to copy file. %s" % e)
                 except:
                     print("Unexpected error:", sys.exc_info())
-        down_url = "https://cdn.jsdelivr.net/gh/nomoodhalashao/my-movie@main/source.json"
+        #down_url = "https://cdn.jsdelivr.net/gh/nomoodhalashao/my-movie@main/source.json"
+        down_url = "https://g.4ris.xyz/https://raw.githubusercontent.com/nomoodhalashao/my-movie/main/source.json"
         try:
             r = requests.get(down_url,timeout = 5,verify=False) 
             result = r.status_code
